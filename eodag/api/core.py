@@ -1115,6 +1115,7 @@ class EODataAccessGateway(object):
     def download_all(
         self,
         search_result,
+        downloaded_callback=None,
         progress_callback=None,
         wait=DEFAULT_DOWNLOAD_WAIT,
         timeout=DEFAULT_DOWNLOAD_TIMEOUT,
@@ -1124,6 +1125,12 @@ class EODataAccessGateway(object):
 
         :param search_result: A collection of EO products resulting from a search
         :type search_result: :class:`~eodag.api.search_result.SearchResult`
+        :param downloaded_callback: (optional) A method or a callable object which takes
+                                    as parameter the `search_result`. You can use the base class
+                                    :class:`~eodag.utils.AllDownloadedCallback` and override
+                                    its `__call__`.
+        :type downloaded_callback: Callable[[:class:`~eodag.api.search_result.SearchResult`], None]
+                                   or None
         :param progress_callback: (optional) A method or a callable object
                                   which takes a current size and a maximum
                                   size as inputs and handle progress bar
@@ -1159,6 +1166,8 @@ class EODataAccessGateway(object):
                 timeout=timeout,
                 **kwargs,
             )
+            if downloaded_callback:
+                downloaded_callback(search_result)
         else:
             logger.info("Empty search result, nothing to be downloaded !")
         return paths

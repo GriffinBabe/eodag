@@ -13,6 +13,7 @@ Logging
 Progress callback
 -----------------
 
+.. autofunction:: eodag.utils.AllDownloadedCallback
 .. autofunction:: eodag.utils.ProgressCallback
 
 Notebook
